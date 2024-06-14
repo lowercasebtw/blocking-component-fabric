@@ -1,0 +1,14 @@
+{
+	"required": true,
+	"package": "btw.lowercase.blocking_component.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [
+		"entity.MixinLivingEntity",
+		"item.MixinItem",
+		"item.MixinShieldItem",
+		"render.MixinHeldItemRenderer"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

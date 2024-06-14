@@ -1,0 +1,25 @@
+{
+	"schemaVersion": 1,
+	"id": "blocking-component",
+	"version": "${version}",
+	"name": "blocking-component",
+	"description": "Adds the 'blocking' component, which provides the ability to block any item, previously only available to the shield.",
+	"authors": ["lowercasebtw"],
+	"license": "CC0-1.0",
+	"icon": "assets/blocking-component/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"btw.lowercase.blocking_component.Blocking"
+		]
+	},
+	"mixins": [
+		"blocking-component.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.15.11",
+		"minecraft": ">=1.20.5",
+		"java": ">=17",
+		"fabric-api": "*"
+	}
+}
