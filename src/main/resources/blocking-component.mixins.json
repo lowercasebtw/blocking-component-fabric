@@ -4,6 +4,7 @@
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
 		"entity.MixinLivingEntity",
+		"entity.MixinPlayerEntity",
 		"item.MixinItem",
 		"item.MixinShieldItem",
 		"render.MixinHeldItemRenderer"

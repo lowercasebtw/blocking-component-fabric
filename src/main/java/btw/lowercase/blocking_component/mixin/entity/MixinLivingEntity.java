@@ -5,6 +5,7 @@ import btw.lowercase.blocking_component.component.Components;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ShieldItem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -20,14 +21,16 @@ public abstract class MixinLivingEntity {
 
     @Shadow public abstract boolean isBlocking();
 
+    @Shadow public abstract ItemStack getMainHandStack();
+
     @Inject(method = "blockedByShield", at = @At("RETURN"), cancellable = true)
     public void blockedByShield$denyDamageIfValueGreaterThanOrEqualToOne(DamageSource source, CallbackInfoReturnable<Boolean> cir) {
-        ItemStack item = this.getActiveItem();
-        if (!item.getComponents().contains(Components.BLOCKING_COMPONENT_TYPE)) {
+        ItemStack stack = this.getActiveItem();
+        if (!stack.getComponents().contains(Components.BLOCKING_COMPONENT_TYPE)) {
             cir.setReturnValue(false);
             return;
         }
-        BlockingComponent component = Objects.requireNonNull(item.getComponents().get(Components.BLOCKING_COMPONENT_TYPE));
+        BlockingComponent component = Objects.requireNonNull(stack.getComponents().get(Components.BLOCKING_COMPONENT_TYPE));
         cir.setReturnValue(isBlocking() && component.getDamageReduceMultiplier() == 1.0F);
     }
 
@@ -38,5 +41,14 @@ public abstract class MixinLivingEntity {
             return value;
         BlockingComponent component = Objects.requireNonNull(stack.getComponents().get(Components.BLOCKING_COMPONENT_TYPE));
         return value * component.getDamageReduceMultiplier();
+    }
+
+    @Inject(method = "disablesShield", at = @At("RETURN"), cancellable = true)
+    public void component$axeDisables(CallbackInfoReturnable<Boolean> cir) {
+        ItemStack stack = this.getMainHandStack();
+        if (!stack.getComponents().contains(Components.BLOCKING_COMPONENT_TYPE))
+            return;
+        BlockingComponent component = Objects.requireNonNull(stack.getComponents().get(Components.BLOCKING_COMPONENT_TYPE));
+        cir.setReturnValue(stack.getItem() instanceof ShieldItem && component.canAxeDisable());
     }
 }

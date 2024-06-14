@@ -22,6 +22,7 @@ public class BlockingComponent {
     }
 
     public BlockingComponent() {
+        // Default values for vanilla shield
         this(1.0F, true, 100);
     }
 
