@@ -14,14 +14,16 @@ import java.util.Objects;
 
 @Mixin(PlayerEntity.class)
 public abstract class MixinPlayerEntity {
-    @Shadow @NotNull public abstract ItemStack getWeaponStack();
+    @Shadow
+    @NotNull
+    public abstract ItemStack getWeaponStack();
 
-    @ModifyArg(method = "disableShield", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/ItemCooldownManager;set(Lnet/minecraft/item/Item;I)V"), index = 1)
+    @ModifyArg(method = "disableShield", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/ItemCooldownManager;set(Lnet/minecraft/item/ItemStack;I)V"), index = 1)
     public int component$disabledTicks(int duration) {
         ItemStack stack = this.getWeaponStack();
-        if (!stack.getComponents().contains(Components.BLOCKING_COMPONENT_TYPE))
+        if (!stack.getComponents().contains(Components.BLOCKING))
             return duration;
-        BlockingComponent component = Objects.requireNonNull(stack.getComponents().get(Components.BLOCKING_COMPONENT_TYPE));
+        BlockingComponent component = Objects.requireNonNull(stack.getComponents().get(Components.BLOCKING));
         return component.getTotalDisabledTicks();
     }
 }

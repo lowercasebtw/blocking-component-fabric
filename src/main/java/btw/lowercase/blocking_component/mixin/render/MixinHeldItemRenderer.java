@@ -25,8 +25,6 @@ public class MixinHeldItemRenderer {
             matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(-102.25F));
             matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(k * 13.365F));
             matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(k * 78.05F));
-        } else {
-            // TODO: Go and remove the blocking model predicate from shield item to fix the issue
         }
     }
 }
